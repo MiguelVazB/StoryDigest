@@ -4,9 +4,9 @@ import Demo from "./components/Demo";
 
 const App = () => {
   return (
-    <main>
+    <main className="gradient-background">
       <Hero />
-      <Demo />
+      {/* <Demo /> */}
     </main>
   );
 };

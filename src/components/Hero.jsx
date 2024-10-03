@@ -5,7 +5,7 @@ const Hero = () => {
   return (
     <div>
       <header className="flex items-center gap-1 p-2 mb-10">
-        <img className="w-20 h-20" src={logo} alt="logo" />
+        <img className="w-16 h-16" src={logo} alt="logo" />
         <div className="text-3xl font-extrabold">StoryDigest</div>
       </header>
       <div className="flex flex-col gap-8 items-center text-center justify-center">
@@ -16,9 +16,10 @@ const Hero = () => {
           </span>
         </div>
         <p className="text-xl text-gray-600 max-w-4xl">
-          Simplify your reading with StoryDigest, an open-source article
-          summarizer. StoryDigest uses the power of GPT-4 to summarize long
-          articles into short and concise summaries.
+          Enhance your reading experience with StoryDigest, a cutting-edge
+          open-source tool. Leveraging the advanced capabilities of GPT-4,
+          StoryDigest transforms lengthy articles into brief, easy-to-digest
+          summaries.
         </p>
       </div>
     </div>

@@ -18,8 +18,21 @@ const Demo = () => {
 
       setArticle(newArticle);
       setAllArticles(updatedAllArticles);
+
+      localStorage.setItem("articles", JSON.stringify(updatedAllArticles));
     }
   };
+
+  // Loads all articles from local storage
+  useEffect(() => {
+    const articlesFromLocalStorage = JSON.parse(
+      localStorage.getItem("articles")
+    );
+
+    if (articlesFromLocalStorage) {
+      setAllArticles(articlesFromLocalStorage);
+    }
+  }, []);
 
   useEffect(() => {
     if (article.summary) {
@@ -28,26 +41,30 @@ const Demo = () => {
   }, [article.summary]);
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      name="article-summary-form"
-      className="flex w-[85%] bg-white items-center justify-center rounded-md overflow-hidden shadow-lg"
-    >
-      <input
-        className="w-full p-2"
-        type="url"
-        placeholder="Enter article URL"
-        value={article.url}
-        onChange={(e) => setArticle({ ...article, url: e.target.value })}
-        required
-      />
-      <button
-        type="submit"
-        className="bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-r transition duration-300 ease-in-out"
+    <div className="w-full flex flex-col gap-10 items-center justify-center">
+      <form
+        onSubmit={handleSubmit}
+        name="article-summary-form"
+        className="flex w-[85%] bg-white items-center justify-center rounded-md overflow-hidden shadow-lg"
       >
-        Summarize
-      </button>
-    </form>
+        <input
+          className="w-full p-2"
+          type="url"
+          placeholder="Enter article URL"
+          value={article.url}
+          onChange={(e) => setArticle({ ...article, url: e.target.value })}
+          required
+        />
+        <button
+          type="submit"
+          className="bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-r transition duration-300 ease-in-out"
+        >
+          Summarize
+        </button>
+      </form>
+      <div>List of Articles stored in local storage</div>
+      <div>Summary of the article</div>
+    </div>
   );
 };
 

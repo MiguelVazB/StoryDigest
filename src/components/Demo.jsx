@@ -7,6 +7,8 @@ const Demo = () => {
 
   const [allArticles, setAllArticles] = useState([]);
 
+  const [articleSummary, setArticleSummary] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { data } = await getSummary({ articleUrl: article.url });
@@ -41,11 +43,11 @@ const Demo = () => {
   }, [article.summary]);
 
   return (
-    <div className="w-full flex flex-col gap-10 items-center justify-center">
+    <div className="w-[85%] flex flex-col gap-20 items-center justify-center">
       <form
         onSubmit={handleSubmit}
         name="article-summary-form"
-        className="flex w-[85%] bg-white items-center justify-center rounded-md overflow-hidden shadow-lg"
+        className="flex w-full bg-white items-center justify-center rounded-md overflow-hidden shadow-lg"
       >
         <input
           className="w-full p-2"
@@ -57,13 +59,35 @@ const Demo = () => {
         />
         <button
           type="submit"
-          className="bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-r transition duration-300 ease-in-out"
+          className="bg-black hover:bg-gray-800 text-white font-semibold p-3 rounded-r transition duration-300 ease-in-out"
         >
           Summarize
         </button>
       </form>
-      <div>List of Articles stored in local storage</div>
-      <div>Summary of the article</div>
+      <div className="w-full flex justify-center items-center flex-col gap-6">
+        <div className="text-xl font-bold">Recent Summaries</div>
+        <li className="w-full flex justify-center items-center flex-col gap-6">
+          {allArticles.map((article, index) => (
+            <ul
+              key={index}
+              className="hover:bg-gray-100 transition duration-300 ease-in-out text-sm shadow-lg text-black bg-white w-full p-2 rounded-md text-center flex justify-between align-middle items-center"
+            >
+              <a
+                href={article.url}
+                target="_blank"
+                className="hover:text-blue-500 cursor-pointer"
+                title="Open in new tab"
+              >
+                {article.url.replace("https://", "")}
+              </a>
+              <button className="bg-black w-fit hover:bg-gray-800 text-white font-semibold p-3 rounded-md transition duration-300 ease-in-out">
+                Digest
+              </button>
+            </ul>
+          ))}
+        </li>
+      </div>
+      <div>Summary of the article {articleSummary}</div>
     </div>
   );
 };

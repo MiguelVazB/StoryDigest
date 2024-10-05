@@ -18,6 +18,13 @@ const Demo = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (allArticles.some((a) => a.url === article.url)) {
+      const existingArticle = allArticles.find((a) => a.url === article.url);
+      setArticle(existingArticle);
+      return; // Prevent fetching the summary again
+    }
+
     const { data } = await getSummary({ articleUrl: article.url });
 
     if (data?.summary) {

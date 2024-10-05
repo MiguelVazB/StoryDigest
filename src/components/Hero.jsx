@@ -3,8 +3,8 @@ import logo from "../assets/logo-removebg.png";
 
 const Hero = () => {
   return (
-    <div>
-      <header className="flex items-center gap-1 p-2 mb-10">
+    <>
+      <header className="flex w-full items-center gap-1 p-4">
         <img className="w-16 h-16" src={logo} alt="logo" />
         <div className="text-3xl font-extrabold">StoryDigest</div>
       </header>
@@ -22,7 +22,7 @@ const Hero = () => {
           summaries.
         </p>
       </div>
-    </div>
+    </>
   );
 };
 

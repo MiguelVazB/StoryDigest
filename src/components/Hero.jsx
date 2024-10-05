@@ -8,7 +8,7 @@ const Hero = () => {
         <img className="w-16 h-16" src={logo} alt="logo" />
         <div className="text-3xl font-extrabold">StoryDigest</div>
       </header>
-      <div className="flex flex-col gap-8 items-center text-center justify-center">
+      <div className="flex flex-col gap-8 p-2 items-center text-center justify-center">
         <div className="text-5xl font-bold">
           <p>Summarize Articles with</p>
           <span className="bg-gradient-to-r from-amber-500 to-pink-600 text-transparent bg-clip-text font-extrabold">

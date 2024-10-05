@@ -1,8 +1,16 @@
-# React + Vite
+# StoryDigest
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+StoryDigest is a cutting-edge open-source tool that leverages the advanced capabilities of GPT-4 to transform lengthy articles into brief, easy-to-digest summaries. Enhance your reading experience with StoryDigest.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Summarize articles using OpenAI GPT-4
+- Beautiful gradient background with Tailwind CSS
+- Redux Toolkit for state management
+- Fetch data from RapidAPI
+
+## Usage
+
+1. Open your browser and navigate to `http://localhost:3000`.
+2. Enter the URL of the article you want to summarize.
+3. Click the "Summarize" button to get a brief summary of the article.

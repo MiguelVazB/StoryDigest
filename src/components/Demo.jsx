@@ -93,7 +93,7 @@ const Demo = () => {
               <a
                 href={article.url}
                 target="_blank"
-                className="hover:text-blue-500 cursor-pointer"
+                className="hover:text-blue-500 cursor-pointer overflow-hidden whitespace-nowrap overflow-ellipsis"
                 title="Open in new tab"
               >
                 {`🌐 ${article.url.replace("https://", "")}`}
@@ -103,7 +103,7 @@ const Demo = () => {
                 disabled={isFetching}
                 className="bg-black w-fit hover:bg-gray-800 text-white font-semibold px-6 py-3 rounded-md transition duration-300 ease-in-out"
               >
-                Digest🍽️
+                Digest
               </button>
             </ul>
           ))}

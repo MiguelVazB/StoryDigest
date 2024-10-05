@@ -11,6 +11,7 @@ StoryDigest is a cutting-edge open-source tool that leverages the advanced capab
 
 ## Usage
 
-1. Open your browser and navigate to `http://localhost:3000`.
+1. Open your browser and navigate to `https://storydigest.netlify.app/`.
 2. Enter the URL of the article you want to summarize.
 3. Click the "Summarize" button to get a brief summary of the article.
+4. You'll have access to recent article summaries.

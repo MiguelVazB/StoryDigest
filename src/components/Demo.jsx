@@ -55,7 +55,7 @@ const Demo = () => {
   }, []);
 
   return (
-    <div className="w-[85%] flex flex-col gap-20 items-center justify-center">
+    <div className="w-[85%] xl:w-[60%] flex flex-col gap-20 items-center justify-center">
       <form
         onSubmit={handleSubmit}
         name="article-summary-form"
@@ -129,7 +129,7 @@ const Demo = () => {
             )}
             <p
               key={`${article.summary}-${allArticles.indexOf(article)}`}
-              className="animate-fadeIn text-left"
+              className="animate-fadeIn text-left text-md xl:text-xl"
             >
               {article?.summary}
             </p>

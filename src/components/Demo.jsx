@@ -10,6 +10,12 @@ const Demo = () => {
 
   const summaryRef = useRef(null);
 
+  const [visibleArticles, setVisibleArticles] = useState(3);
+
+  const showMoreArticles = () => {
+    setVisibleArticles((prev) => prev + 3);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { data } = await getSummary({ articleUrl: article.url });
@@ -75,9 +81,11 @@ const Demo = () => {
         )}
       </form>
       <div className="w-full flex justify-center items-center flex-col gap-6">
-        <div className="text-xl font-bold">📁 Recent Summaries</div>
+        {allArticles.length > 1 && (
+          <div className="text-xl font-bold">📁 Recent Summaries</div>
+        )}
         <li className="w-full flex justify-center items-center flex-col gap-6">
-          {allArticles.map((article, index) => (
+          {allArticles.slice(0, visibleArticles).map((article, index) => (
             <ul
               key={index}
               className="hover:bg-gray-100 transition duration-300 ease-in-out text-sm shadow-lg text-black bg-white w-full p-2 rounded-md text-center flex justify-between align-middle items-center"
@@ -95,10 +103,18 @@ const Demo = () => {
                 disabled={isFetching}
                 className="bg-black w-fit hover:bg-gray-800 text-white font-semibold px-6 py-3 rounded-md transition duration-300 ease-in-out"
               >
-                Digest
+                Digest🍽️
               </button>
             </ul>
           ))}
+          {visibleArticles < allArticles.length && (
+            <button
+              onClick={showMoreArticles}
+              className="bg-white hover:bg-gray-100 text-blue-700 font-bold py-2 px-4 rounded-md shadow-lg"
+            >
+              Show More
+            </button>
+          )}
         </li>
       </div>
       <div ref={summaryRef} className="mb-10 p-5 min-h-full">
@@ -107,11 +123,13 @@ const Demo = () => {
         ) : (
           <div className="flex justify-center flex-col align-middle text-center gap-4">
             {article?.summary && (
-              <div className="text-xl font-bold">📋 Article Summary</div>
+              <div className="text-3xl bg-gradient-to-r from-amber-500 to-pink-600 text-transparent bg-clip-text font-extrabold">
+                Article Summary
+              </div>
             )}
             <p
               key={`${article.summary}-${allArticles.indexOf(article)}`}
-              className="animate-fadeIn"
+              className="animate-fadeIn text-left"
             >
               {article?.summary}
             </p>

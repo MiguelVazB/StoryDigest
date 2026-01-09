@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import { useLazyGetSummaryQuery } from "../services/article";
 import Loading from "./Loading";
 
@@ -7,6 +7,8 @@ const Demo = () => {
   const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
 
   const [allArticles, setAllArticles] = useState([]);
+  const [showCopied, setShowCopied] = useState(false);
+  const [urlError, setUrlError] = useState("");
 
   const summaryRef = useRef(null);
 
@@ -16,8 +18,35 @@ const Demo = () => {
     setVisibleArticles((prev) => prev + 3);
   };
 
+  const validateUrl = (url) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const copyToClipboard = useCallback((text) => {
+    navigator.clipboard.writeText(text);
+    setShowCopied(true);
+    setTimeout(() => setShowCopied(false), 2000);
+  }, []);
+
+  const clearHistory = useCallback(() => {
+    setAllArticles([]);
+    localStorage.removeItem("articles");
+    setArticle({ url: "", summary: "" });
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateUrl(article.url)) {
+      setUrlError("Please enter a valid URL");
+      return;
+    }
+    setUrlError("");
 
     if (allArticles.some((a) => a.url === article.url)) {
       const existingArticle = allArticles.find((a) => a.url === article.url);
@@ -61,38 +90,59 @@ const Demo = () => {
     }
   }, []);
 
+  const sortedArticles = useMemo(
+    () => allArticles.slice(0, visibleArticles),
+    [allArticles, visibleArticles]
+  );
+
   return (
     <div className="w-[85%] xl:w-[60%] flex flex-col gap-20 items-center justify-center">
       <form
         onSubmit={handleSubmit}
         name="article-summary-form"
-        className="flex w-full bg-white items-center justify-center rounded-md overflow-hidden shadow-lg"
+        className="flex flex-col w-full gap-2"
       >
-        <input
-          className="w-full p-2"
-          type="url"
-          placeholder="Enter article URL"
-          value={article.url}
-          onChange={(e) => setArticle({ ...article, url: e.target.value })}
-          required
-        />
-        {isFetching ? (
-          <Loading />
-        ) : (
-          <button
-            type="submit"
-            className="bg-black hover:bg-gray-800 text-white font-semibold p-3 rounded-r transition duration-300 ease-in-out"
-          >
-            Summarize
-          </button>
+        <div className="flex w-full bg-white items-center justify-center rounded-md overflow-hidden shadow-lg">
+          <input
+            className="w-full p-2"
+            type="url"
+            placeholder="Enter article URL"
+            value={article.url}
+            onChange={(e) => setArticle({ ...article, url: e.target.value })}
+            required
+            aria-label="Article URL input"
+          />
+        {urlError && (
+          <div className="text-red-500 text-sm px-2">{urlError}</div>
         )}
+          {isFetching ? (
+            <Loading />
+          ) : (
+            <button
+              type="submit"
+              className="bg-black hover:bg-gray-800 text-white font-semibold p-3 rounded-r transition duration-300 ease-in-out"
+              aria-label="Summarize article"
+            >
+              Summarize
+            </button>
+          )}
+        </div>
       </form>
       <div className="w-full flex justify-center items-center flex-col gap-6">
         {allArticles.length > 1 && (
-          <div className="text-xl font-bold">📁 Recent Summaries</div>
+          <div className="flex justify-between w-full items-center">
+            <div className="text-xl font-bold">📁 Recent Summaries</div>
+            <button
+              onClick={clearHistory}
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition duration-300 ease-in-out"
+              aria-label="Clear history"
+            >
+              Clear History
+            </button>
+          </div>
         )}
         <li className="w-full flex justify-center items-center flex-col gap-6">
-          {allArticles.slice(0, visibleArticles).map((article, index) => (
+          {sortedArticles.map((article, index) => (
             <ul
               key={index}
               className="hover:bg-gray-100 transition duration-300 ease-in-out text-sm shadow-lg text-black bg-white w-full p-2 rounded-md text-center flex justify-between align-middle items-center"
@@ -130,8 +180,17 @@ const Demo = () => {
         ) : (
           <div className="flex justify-center flex-col align-middle text-center gap-4">
             {article?.summary && (
-              <div className="text-3xl bg-gradient-to-r from-amber-500 to-pink-600 text-transparent bg-clip-text font-extrabold">
-                Article Summary
+              <div className="flex items-center justify-center gap-4">
+                <div className="text-3xl bg-gradient-to-r from-amber-500 to-pink-600 text-transparent bg-clip-text font-extrabold">
+                  Article Summary
+                </div>
+                <button
+                  onClick={() => copyToClipboard(article.summary)}
+                  className="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md transition duration-300 ease-in-out"
+                  aria-label="Copy summary to clipboard"
+                >
+                  {showCopied ? "✓ Copied" : "📋 Copy"}
+                </button>
               </div>
             )}
             <p
@@ -143,8 +202,9 @@ const Demo = () => {
           </div>
         )}
         {error && (
-          <div className="text-red-500 text-center mt-4">
-            An error occurred while fetching the summary.
+          <div className="text-red-500 text-center mt-4 p-4 bg-red-100 rounded-md">
+            <p className="font-semibold">Error</p>
+            <p>{error?.data?.message || "An error occurred while fetching the summary."}</p>
           </div>
         )}
       </div>

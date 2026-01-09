@@ -102,9 +102,9 @@ const Demo = () => {
         name="article-summary-form"
         className="flex flex-col w-full gap-2"
       >
-        <div className="flex w-full bg-white items-center justify-center rounded-md overflow-hidden shadow-lg">
+        <div className="flex w-full bg-white dark:bg-gray-800 items-center justify-center rounded-md overflow-hidden shadow-lg">
           <input
-            className="w-full p-2"
+            className="w-full p-2 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
             type="url"
             placeholder="Enter article URL"
             value={article.url}
@@ -131,7 +131,7 @@ const Demo = () => {
       <div className="w-full flex justify-center items-center flex-col gap-6">
         {allArticles.length > 1 && (
           <div className="flex justify-between w-full items-center">
-            <div className="text-xl font-bold">📁 Recent Summaries</div>
+            <div className="text-xl font-bold dark:text-white">📁 Recent Summaries</div>
             <button
               onClick={clearHistory}
               className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition duration-300 ease-in-out"
@@ -145,7 +145,7 @@ const Demo = () => {
           {sortedArticles.map((article, index) => (
             <ul
               key={index}
-              className="hover:bg-gray-100 transition duration-300 ease-in-out text-sm shadow-lg text-black bg-white w-full p-2 rounded-md text-center flex justify-between align-middle items-center"
+              className="hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 ease-in-out text-sm shadow-lg text-black dark:text-white bg-white dark:bg-gray-800 w-full p-2 rounded-md text-center flex justify-between align-middle items-center"
             >
               <a
                 href={article.url}
@@ -167,7 +167,7 @@ const Demo = () => {
           {visibleArticles < allArticles.length && (
             <button
               onClick={showMoreArticles}
-              className="bg-white hover:bg-gray-100 text-blue-700 font-bold py-2 px-4 rounded-md shadow-lg"
+              className="bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-blue-700 dark:text-blue-400 font-bold py-2 px-4 rounded-md shadow-lg"
             >
               Show More
             </button>
@@ -195,14 +195,14 @@ const Demo = () => {
             )}
             <p
               key={`${article.summary}-${allArticles.indexOf(article)}`}
-              className="animate-fadeIn text-left text-md xl:text-xl"
+              className="animate-fadeIn text-left text-md xl:text-xl dark:text-gray-200"
             >
               {article?.summary}
             </p>
           </div>
         )}
         {error && (
-          <div className="text-red-500 text-center mt-4 p-4 bg-red-100 rounded-md">
+          <div className="text-red-500 dark:text-red-400 text-center mt-4 p-4 bg-red-100 dark:bg-red-900 dark:bg-opacity-30 rounded-md">
             <p className="font-semibold">Error</p>
             <p>{error?.data?.message || "An error occurred while fetching the summary."}</p>
           </div>
